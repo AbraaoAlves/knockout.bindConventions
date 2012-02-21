@@ -1,3 +1,3 @@
-knockout.bindingConventions
+# knockout.bindingConventions
 
 unobstructive knockout js code
