@@ -6,52 +6,80 @@
 
 ///<reference path="../koBindingConventions.js" />
 
-var person = function(){
-    this.Name = ko.observable();
-};
+
 
 describe('Given html without attrs: data-bind', function(){
-    var didInit = false;
     
+    var vm ;
+    var person = function(name){
+        this.Name = ko.observable(name);
+    };
+
     beforeEach(function(){
         
-        setFixtures('<div id="person">'+
+        setFixtures( '<div id="person">'+
+                        '<span></span>'+
                         '<input type="text" class="Name" name="Name" >'+
-                    '</div>');
+                    '</div>' ); 
 
     });
-
-    afterEach(function(){
-        didInit = false;
-    });
-
+    
     describe('and data-bind conventions expecified', function(){
-        var vm;
+        var after = function(){};
+
         beforeEach(function(){
+            vm = new person();    
+            ko.clearBindConventions();
+        });
+
+        afterEach(function(){
             
-            vm = new person();
-            ko.bindingHandlers.test = {
-                init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            ko.applyBindings(vm, document.getElementById('jasmine-fixtures'));
             
-                    expect(element.className).toBe("Name");
-                    expect(viewModel).toBe(vm);
-                    
-                    didInit = true;
-                }
-            };
+            var inputName = $('#person').find('.Name');
+
+            vm.Name('Jose');
+            expect(inputName).toHaveValue('Jose');
+                
+            inputName.val('Joao').change();
+            expect(vm.Name()).toEqual('Joao');
+            
+            if(after) after.call(this);
         });
 
         describe('when ko.applyBindings test have to be linked through conventions', function(){
-            
-            it('to conventions based in "id" and "class"', function(){
-                
-                ko.bindConventions('#person',{
-                    '#person' : {'with':vm},
-                    '.Name':function(p){ return {test: p.Name}; }
-                });
 
-                ko.applyBindings(vm);
-                expect(didInit).toBe(true);
+            it('conventions based in "id" and "class"', function(){
+                
+                ko.bindConventions({
+                    '#person' : {'with':vm },
+                    '.Name'   : function(p){ return {value: p.Name}; }
+                });
+            
+            });
+
+            it('conventions based in css selector', function(){
+                
+                vm.Id = ko.observable();
+                vm.isCreated = ko.computed(function(){
+                    return this.Id() > 0;
+                }, vm);
+
+                ko.bindConventions({
+                    '[id="person"]' : {'with':vm},
+                    'input[name="Name"]':function(p){ return {value: p.Name}; },
+                    '#person span':function(p){return {text:p.Id, visible: p.isCreated} }
+                });
+                
+                after = function(){
+                    vm.Id(1);
+                    expect($('#person').find('span')).toBeVisible();
+                    
+                    vm.Id(0);
+                    expect($('#person').find('span')).not.toBeVisible();
+
+                    delete after;
+                };
 
             });
             
