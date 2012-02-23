@@ -4,9 +4,12 @@
     var contains = /*bool*/ function(el){
         return Array.prototype.indexOf.call(this, el) !== -1; 
     },
-    find = /*nodeList*/ function(selector, context){
-        context = context || document;
-        return context.querySelectorAll(selector);
+    find = /*nodeList*/function (selector, context) {
+
+        if(!document.querySelectorAll)
+            throw new Error('You can test ko.bindConventions standalone with: iPhone, FF3.5+, Safari4+ and IE8+\n\nTo run PURE on your browser, you need a JS library/framework with a CSS selector engine.');
+        
+        return (context || document).querySelectorAll(selector);
     },
 
     bindingConventions = function(underlyingProvider) {
@@ -30,7 +33,7 @@
 	        var bindings = this.underlyingProvider.getBindings(node, bindingContext);
 
 	        for(var selector in this.conventions)
-                if(contains.call(find(selector, rootEl), node))
+                if(contains.call(find(selector), node))
                     bindings = this._mergeInBindingsWithoutOverwrite(bindings, selector, bindingContext, node);
             
 	        return bindings;
