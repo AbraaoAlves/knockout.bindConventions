@@ -1,4 +1,4 @@
-# Knockout.bindingConventions
+# Knockout.bindConventions
 
 Alternative configuration mechanisms to bind html with [knockoutJs](http://knockoutjs.com/) ViewModel.
 
