@@ -3,9 +3,11 @@
 Alternative configuration mechanisms to bind html with [knockoutJs](http://knockoutjs.com/) ViewModel.
 
 
-# [Unobtrusive JavaScript](http://en.wikipedia.org/wiki/Unobtrusive_JavaScript)
+[Unobtrusive JavaScript](http://en.wikipedia.org/wiki/Unobtrusive_JavaScript)
 ---
-after bindConventions:
+
+after bindConventions :
+
 	<div>
 		<span data-bind="text:Id"></span>
 		<input type="text" name="Name" data-bind="value:Name">
@@ -30,6 +32,6 @@ with bindConventions :
 	</script>
 
 
-# Requirements
+Requirements
 ---
-	- Browser support or polyfills to document.querySelectorAll
+- Browser support or polyfills to document.querySelectorAll
