@@ -35,3 +35,7 @@ with bindConventions :
 Requirements
 ---
 - Browser support or polyfills to document.querySelectorAll
+ 
+Note:
+This project is a fork of this script: 
+http://code.google.com/p/jshost/source/browse/koBindingConventionsPrototype2.js?spec=svn81ac8ef7b4bbe30d00ac3a8c7a63987b1a94ced7&r=81ac8ef7b4bbe30d00ac3a8c7a63987b1a94ced7 
