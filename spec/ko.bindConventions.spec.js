@@ -7,13 +7,12 @@
 ///<reference path="../ko.bindConventions.js" />
 
 
-
+ var person = function (name) {
+    this.Name = ko.observable(name);
+};
 describe('Given html without attrs: data-bind', function () {
 
     var vm;
-    var person = function (name) {
-        this.Name = ko.observable(name);
-    };
 
     beforeEach(function () {
 
@@ -108,4 +107,32 @@ describe('Given html without attrs: data-bind', function () {
 
     });
 
+});
+
+describe('Geven html with data-bind attrubute', function () {
+
+    it('merge bind convetions with data-bind especification', function () {
+        setFixtures('<div id="person">' +
+            '<span data-bind="text:Id, visible: isCreated"></span>' +
+            '<input type="text" class="Name" name="Name" >' +
+        '</div>');
+
+        ko.bindConventions({
+            '#person': function (p) { return { 'with': p } },
+            '.Name': function (p) { return { value: p.Name }; }
+        });
+
+        var p = new person();
+        p.Id = ko.observable();
+        p.isCreated = ko.computed(function () {
+            return this.Id() > 0;
+        }, p);
+        ko.applyBindings(p);
+
+        p.Id(1);
+        expect($('#person').find('span')).toBeVisible();
+
+        p.Id(0);
+        expect($('#person').find('span')).not.toBeVisible();
+    });
 });
