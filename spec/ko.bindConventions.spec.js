@@ -146,7 +146,7 @@ describe('Geven html with data-bind attrubute', function () {
             '.Name': function (p) { return { value: p.Name }; }
         });
 
-        var p = new person();
+        var p = new Person();
         p.Id = ko.observable();
         p.isCreated = ko.computed(function () {
             return this.Id() > 0;
