@@ -31,29 +31,29 @@ with bindConventions :
 	
 Features
 ---
-	- ko.bindConventions can using with default data-bind attribute in html
-	- use element's attributes to build your bindConvention: 
+- ko.bindConventions can using with default data-bind attribute in html
+- use element's attributes to build your bindConvention: 
 		
-		<div data-bind="with:person">
-			<input type="hidden" name="Id">
-			Name: <input type="text" name="Name">   <br>
-			Date: <input type="text" name="Date">   <br>
-			Email:<input type="email" name="Email"> <br>
-		</div>
-		<script>
-			/* css selectors */
-			ko.bindConventions({
-				'input[name]' : function(person, element){ 
-					return {value: person[element.name] };
-				}
-			});
-			var vm = {
-				person:ko.observable(
-					{ Id : ko.observable(), Name:ko.observable(), Date:ko.observable(), Email:ko.observable() }
-				)
-			};
-			ko.applyBindings(vm);
-		</script>
+	<div data-bind="with:person">
+		<input type="hidden" name="Id">
+		Name: <input type="text" name="Name">   <br>
+		Date: <input type="text" name="Date">   <br>
+		Email:<input type="email" name="Email"> <br>
+	</div>
+	<script>
+		/* css selectors */
+		ko.bindConventions({
+			'input[name]' : function(person, element){ 
+				return {value: person[element.name] };
+			}
+		});
+		var vm = {
+			person:ko.observable(
+				{ Id : ko.observable(), Name:ko.observable(), Date:ko.observable(), Email:ko.observable() }
+			)
+		};
+		ko.applyBindings(vm);
+	</script>
 	
 
 Requirements
