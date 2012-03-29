@@ -34,6 +34,8 @@ Features
 - ko.bindConventions can using with default data-bind attribute in html
 - use element's attributes to build your bindConvention: 
 		
+ex:
+	
 	<div data-bind="with:person">
 		<input type="hidden" name="Id">
 		Name: <input type="text" name="Name">   <br>
