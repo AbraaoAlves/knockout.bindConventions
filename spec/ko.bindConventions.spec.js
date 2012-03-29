@@ -6,10 +6,12 @@
 
 ///<reference path="../ko.bindConventions.js" />
 
-
- var person = function (name) {
+var Person = function (name, date, email) {
     this.Name = ko.observable(name);
+    this.DateOfBirth = ko.observable(date);
+    this.Email = ko.observable(email);
 };
+
 describe('Given html without attrs: data-bind', function () {
 
     var vm;
@@ -18,7 +20,9 @@ describe('Given html without attrs: data-bind', function () {
 
         setFixtures('<div id="person">' +
                         '<span></span>' +
-                        '<input type="text" class="Name" name="Name" >' +
+                        '<input type="text"  class="Name" name="Name" >' +
+                        '<input type="text"  class="date" name="DateOfBirth" >' +
+                        '<input type="email"              name="Email" >' +
                     '</div>');
 
     });
@@ -26,16 +30,16 @@ describe('Given html without attrs: data-bind', function () {
     it('throw error if browser no support "document.querySelectorAll"', function () {
         this.myFn = document.querySelectorAll;
         document.querySelectorAll = undefined;
-        
-        vm = new person();
-            
+
+        vm = new Person();
+
         ko.bindConventions({
             '[id="person"]': function (p) { return { 'with': p }; },
             'input[name="Name"]': function (p) { return { value: p.Name }; },
             '#person span': function (p) { return { text: p.Id, visible: p.isCreated} }
         });
 
-        expect(function(){
+        expect(function () {
             ko.applyBindings(vm);
         }).toThrow('You can test ko.bindConventions standalone with: iPhone, FF3.5+, Safari4+ and IE8+\n\nTo run PURE on your browser, you need a JS library/framework with a CSS selector engine.');
 
@@ -47,7 +51,7 @@ describe('Given html without attrs: data-bind', function () {
         var after = function () { };
 
         beforeEach(function () {
-            vm = new person();
+            vm = new Person();
         });
 
         afterEach(function () {
@@ -97,15 +101,35 @@ describe('Given html without attrs: data-bind', function () {
                     expect($('#person').find('span')).not.toBeVisible();
 
                     after = null;
-                } 
+                }
 
             });
 
-            
+            it('can using attr of element in my conventions', function () {
+                
+                ko.bindConventions({
+                    '#person': function (p) { return { 'with': p }; },
+                    'input': function (p, el) { return { value: p[el.name] }; },
+                });
+
+                after = function () {
+                    vm.Name('Abraao');
+                    expect($('#person').find('input[name="Name"]')).toHaveValue('Abraao');
+
+                    vm.DateOfBirth('19/12/1988');
+                    expect($('#person').find('input[name="DateOfBirth"]')).toHaveValue('19/12/1988');
+
+                    vm.Email('abraao.alves@email.com');
+                    expect($('#person').find('input[name="Email"]')).toHaveValue('abraao.alves@email.com');
+
+                    after = null;
+                }
+            });
 
         });
 
     });
+
 
 });
 

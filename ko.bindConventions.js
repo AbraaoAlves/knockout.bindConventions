@@ -67,7 +67,7 @@
 	            for (var i = 0, j = conventionsForSelector.length; i < j; i++) {
 	                var conventionsEntry = conventionsForSelector[i];
 	                var bindings = typeof conventionsEntry.bindingValue === "function"
-	                    ? conventionsEntry.bindingValue(bindingContext['$data'], bindingContext)
+	                    ? conventionsEntry.bindingValue(bindingContext['$data'], node, bindingContext)
 	                    : conventionsEntry.bindingValue;
 	                if (conventionsEntry.rootSelector && !this._nodeOrAncestorMatchesSelector(node, conventionsEntry.rootSelector))
 	                    continue;
