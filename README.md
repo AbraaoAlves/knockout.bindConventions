@@ -3,7 +3,7 @@
 Alternative configuration mechanisms to bind html with [knockoutJs](http://knockoutjs.com/) ViewModel.
 [Unobtrusive JavaScript](http://en.wikipedia.org/wiki/Unobtrusive_JavaScript)
 
-after bindConventions :
+before bindConventions :
 
 	<div>
 		<span data-bind="text:Id"></span>
